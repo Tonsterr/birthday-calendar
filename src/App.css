@@ -20,10 +20,10 @@
 ListItem {
   text-align: left;
 }
-ListItemButton{
+ListItemButton {
   width: 100px;
 }
-.birthday-list{
+.birthday-list {
   display: flex;
   text-align: left;
 }
@@ -55,4 +55,3 @@ ListItemButton{
 .read-the-docs {
   color: #888;
 }
-

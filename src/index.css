@@ -27,14 +27,12 @@ a:hover {
 body {
   margin: 0;
   min-width: 320px;
-  display:block;
+  display: block;
   place-items: center;
   min-height: 100vh;
-  
 }
 
 .logo {
-
   width: 300px;
 }
 
