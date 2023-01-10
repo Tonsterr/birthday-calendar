@@ -15,7 +15,11 @@ import { FormatMonth } from "../util/util";
 import Label from "@mui/material/InputLabel";
 
 interface Birthday {
-  date: string;
+  date: {
+    formatted: string;
+    day: string | undefined;
+    month: string | undefined;
+  };
   text: string;
   favorited: boolean;
 }
@@ -27,9 +31,9 @@ interface Props {
 }
 
 const BirthdayList = ({ day, month, search }: Props) => {
-  const [birthdays, setBirthdays] = React.useState<Birthday[]>([]);
-  const [error, setError] = React.useState("");
-  const [favorites, setFavorites] = React.useState<Birthday[]>([]);
+  const [birthdays, setBirthdays] = useState<Birthday[]>([]);
+  const [error, setError] = useState("");
+  const [favorites, setFavorites] = useState<Birthday[]>([]);
 
   const fetchData = async (
     dayValue: string | undefined,
@@ -59,7 +63,12 @@ const BirthdayList = ({ day, month, search }: Props) => {
     else addToFavorites(birthday);
   };
   const addToFavorites = (birth: Birthday) => {
-    birth.date = `${FormatMonth(month)} ${day}`;
+    birth.date = {
+      formatted: `${FormatMonth(month)} ${day}`,
+      day: day,
+      month: month,
+    };
+
     setFavorites([...favorites, birth]);
   };
 
@@ -84,7 +93,11 @@ const BirthdayList = ({ day, month, search }: Props) => {
                 search === ""
             )
             .map((birthday) => (
-              <ListItem key={birthday.text} disableGutters>
+              <ListItem
+                key={birthday.text}
+                disableGutters
+                data-testid="birthday-list-item"
+              >
                 <ListItemButton onClick={() => AddRemoveFavorite(birthday)}>
                   <ListItemIcon>
                     {birthday.favorited ? (
@@ -99,26 +112,31 @@ const BirthdayList = ({ day, month, search }: Props) => {
             ))}
         </List>
       )}
-      {favorites.length > 0 && <FavoriteList favorites={favorites} />}
+      {<FavoriteList favorites={favorites} />}
     </div>
   );
 };
 
-const FavoriteList = ({ favorites }: { favorites: Birthday[] }) => {
-  return (
+export const FavoriteList = ({ favorites }: { favorites: Birthday[] }) => {
+  return favorites.length > 0 ? (
     <div>
       <h2>Favorite Birthdays</h2>
       <List sx={{ width: "100%" }}>
         {favorites.map((favorite) => (
-          <div>
-            <Label>{favorite.date}</Label>
-            <ListItem key={favorite.text} disableGutters>
+          <div key={favorite.text}>
+            <Label data-testid="favorite-list-subheader">
+              {favorite.date.formatted}
+            </Label>
+            <ListItem disableGutters data-testid="favorite-list-item">
               <ListItemText primary={`${favorite.text}`} />
             </ListItem>
           </div>
         ))}
       </List>
     </div>
+  ) : (
+    <></>
   );
 };
+
 export default BirthdayList;

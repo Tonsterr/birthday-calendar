@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import { FormatMonth } from "../util/util.js";
+import { FormatMonth } from "../util/util";
 
 interface Props {
   date: Dayjs | null | undefined;

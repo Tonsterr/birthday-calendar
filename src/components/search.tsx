@@ -9,8 +9,13 @@ interface Props {
 export default function SearchFiel({ search, setSearch }: Props) {
   return (
     <div className="search">
-      <Label>Search</Label>
-      <TextField value={search} onChange={(e) => setSearch(e.target.value)} />
+      <Label htmlFor="search-field">Search</Label>
+      <TextField
+        id="search-field"
+        data-testid="search-field"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
     </div>
   );
 }

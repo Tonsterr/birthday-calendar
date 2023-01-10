@@ -4,6 +4,7 @@ import "./App.css";
 import Birthdays from "./components/birthdays";
 import Calendar from "./components/calendar";
 import Search from "./components/search";
+import Label from "@mui/material/InputLabel";
 
 const App: React.FC = () => {
   const [search, setSearch] = useState<string>("");
@@ -15,9 +16,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <a href="https://www.kinaxis.com/en">
-        <img className="logo" src="./src/assets/kinaxis.png" />
-      </a>
+      <Label sx={{ fontSize: "4em" }}>Birthday Calendar</Label>
       <Calendar date={date} setDate={setDate} />
       <Search search={search} setSearch={setSearch} />
       <Birthdays search={search} day={day} month={month} />
