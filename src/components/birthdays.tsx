@@ -118,18 +118,31 @@ const BirthdayList = ({ day, month, search }: Props) => {
 };
 
 export const FavoriteList = ({ favorites }: { favorites: Birthday[] }) => {
-  return favorites.length > 0 ? (
+  const groupedFavorites: { [key: string]: Birthday[] } = {};
+  favorites.forEach((favorite) => {
+    const subheader = favorite.date.formatted;
+    if (!groupedFavorites[subheader]) {
+      groupedFavorites[subheader] = [favorite];
+    } else {
+      groupedFavorites[subheader].push(favorite);
+    }
+  });
+  return Object.keys(groupedFavorites).length > 0 ? (
     <div>
       <h2>Favorite Birthdays</h2>
       <List sx={{ width: "100%" }}>
-        {favorites.map((favorite) => (
-          <div key={favorite.text}>
-            <Label data-testid="favorite-list-subheader">
-              {favorite.date.formatted}
-            </Label>
-            <ListItem disableGutters data-testid="favorite-list-item">
-              <ListItemText primary={`${favorite.text}`} />
-            </ListItem>
+        {Object.keys(groupedFavorites).map((subheader) => (
+          <div key={subheader}>
+            <Label data-testid="favorite-list-subheader">{subheader}</Label>
+            {groupedFavorites[subheader].map((favorite) => (
+              <ListItem
+                key={favorite.text}
+                disableGutters
+                data-testid="favorite-list-item"
+              >
+                <ListItemText primary={`${favorite.text}`} />
+              </ListItem>
+            ))}
           </div>
         ))}
       </List>
